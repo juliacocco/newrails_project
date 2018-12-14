@@ -1,0 +1,7 @@
+function updateDOM() {
+  const stock = document.querySelector("[data-offer-id='<%= @offer.id %>']");
+  stock.innerText = "<%= @offer.stock %>";
+};
+
+updateDOM();
+

@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="center-block">
+    <%= simple_form_for [@offer] do |f| %>
+    <%= f.input :price, as: :integer %>
+    <%= f.input :description %>
+    <%= f.input :stock, as: :integer %>
+    <%= f.submit "Edit", class: "btn btn-primary bigger" %>
+  <% end %>
+  <%= link_to "Back to the product's page", offer_path(@offer), class:"link-back" %>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<!-- Search bar -->
+<% if @user.seller == true && current_user.shop_id == nil%>
+<div class="add-product center-block">
+  <%= link_to "+ Add your shop", new_shop_path %>
+</div>
+
+<% else %>
+
+    <div class="top-items">
+
+      <div class="search-offer col-xs-12">
+        <div class="search-bar">
+          <input type="text" id="myInput" onkeyup="myFunction()"  placeholder="Search your product" title="Type in a name" >
+          <%=  button_tag(class: "search-button") do %>
+            <i class="fas fa-search"></i>
+          <% end %>
+        </div>
+
+      <div class="top-title">
+        <p id="result-number"><%= @offers.size %> Results</p>
+        <i class="category-dropdown" data-toggle="dropdown">Category <i   class="fas fa-angle-down"></i></i>
+        <ul class="dropdown-menu dropdown-menu-right profile-dropdown-menu  " >
+          <% @list_of_category.uniq.each do |category| %>
+            <li class="categoryfilter"> <%= category %></li>
+          <% end %>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div id="myDivs">
+      <% @offers.each do |offer| %>
+      <div id="myDiv" class="card padding" data-category="<%= offer.  product.category%>">
+        <div class="product-image">
+          <%= link_to cl_image_tag(offer.product.photo), offer_path(offer)  , class: "image" %>
+        </div>
+        <div class="product-description less-flex">
+          <h4><%= link_to offer.product.brand + " " + offer.product.model   +   " " + offer.product.product_type, offer_path(offer)%></h4>
+          <h5>by <%= offer.product.brand %></h5>
+          <div class="rating-index">
+            <% if offer.product.average_rating.nil?  %>
+              <p>Not rated yet</p>
+            <% else  %>
+              <div class="stars">
+                <% for i in 1..5 %>
+                  <% if offer.product.average_rating + 0.5 >= i  %>
+                    <i class="fas fa-star"></i>
+                  <% else %>
+                    <i class="fas fa-star empty"></i>
+                    <% end %>
+                  <% end  %>
+                <p><%= offer.product.numbervote %></p>
+              </div>
+            <% end  %>
+            <div class="edit-link">
+            <%= link_to edit_offer_path(offer) do %>
+           <i class="fas fa-edit"></i>
+           <span>Edit</span>
+           <% end %>
+           </div>
+          </div>
+        </div>
+        <div class="product-details space">
+          <div class="stock"><p><%= offer.stock %> in stock</p></div>
+          <div class="price-offer"><p><%= offer.price %> €</p></div>
+          <div class="barcode-number"><p ><%= offer.product.bar_code %> </  p></div>
+        </div>
+      </div>
+      <% end %>
+      <div class="add-product center-block">
+      <%= link_to "+ Add a product", new_product_path(hidden_tag: "barcode")%>
+      </div>
+    </div>
+
+
+
+  <script>
+  function myFunction() {
+      var input, filter, divs, divs, a, i, barcode, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      divs = document.getElementById("myDivs");
+      div = [].slice.call(myDivs.children);
+      var results = 0
+      for (i = 0; i < div.length; i++) {
+          a = div[i].getElementsByTagName("a")[1];
+          txtValue = (a.textContent + " " + div[i].getElementsByClassName(  "barcode-number")[0].innerText)|| (a.innerText + " " +  div[i]  .getElementsByClassName("barcode-number")[0].innerText);
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              div[i].style.display = "";
+              results += 1
+          } else {
+              div[i].style.display = "none";
+          }
+          document.getElementById("result-number").innerText = results +"   Results"
+      }
+  }
+  </script>
+<% end %>

@@ -1,0 +1,197 @@
+<% if  @user.seller == true && current_user.shop_id == nil%>
+<div class="add-product center-block">
+  <%= link_to "+ Add your shop", new_shop_path %>
+</div>
+
+<% elsif  @user.seller == true &&  @orders.nil? %>
+
+
+
+<% elsif  @user.seller == true%>
+
+
+<div class="top-items transactions-padding">
+  <div class="search-bar">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search your order" title="Type in a name">
+    <%=  button_tag(class: "search-button") do %>
+      <i class="fas fa-search"></i>
+    <% end %>
+  </div>
+
+  <div class="top-title">
+    <p id="result-number"><%= @orders.size %> Results</p>
+    <i class="category-dropdown" data-toggle="dropdown">Date <i class="fas fa-angle-down"></i></i>
+  </div>
+</div>
+
+<div  id="myDivs">
+<% @orders.each do |order| %>
+<div  id="myDiv" class="transaction-card">
+ <div class="card-header">
+   <p>Sold to <%= order.user.email  %></p>
+   <p class="transaction-date"><%= order.created_at.strftime(" %e %B %Y - %l:%M %p")%></p>
+ </div>
+ <div  class="card bar-code-card">
+  <div class="transaction-quantity">
+    <p class="bought-quantity"><strong><%=order.units%></strong> &#215;</p>
+  </div>
+  <div class="transaction-product-image">
+    <%= cl_image_tag(order.offer.product.photo,  class: "transaction-image") %>
+  </div>
+  <div class="product-description purchases">
+   <h4><%= order.offer.product.product_type %> <%= order.offer.product.brand %> <%= order.offer.product.model %></h4>
+   <h5>by <%= order.offer.product.brand %> </h5>
+   <div class="rating-index">
+    <% if order.offer.product.average_rating.nil?  %>
+    <p>Not rated yet</p>
+    <% else  %>
+    <div class="stars-transactions">
+      <div class="stars">
+        <% for i in 1..5 %>
+        <% if order.offer.product.average_rating + 0.5 >= i  %>
+        <i class="fas fa-star"></i>
+        <% else %>
+        <i class="fas fa-star empty"></i>
+        <% end %>
+        <% end  %>
+      </div>
+      <p><%= order.offer.product.numbervote %></p>
+    </div>
+    <% end  %>
+  </div>
+</div>
+<div class="transactions-details">
+  <div class="stock">
+    <p><%= order.offer.stock %> in stock</p>
+  </div>
+  <div class="price">
+    <p><%= number_to_currency(order.price_snapshot / 100.00,unit: "€",precision: 2, format: "%n %u", delimiter: ".")  %></p>
+  </div>
+  <div class="bar-code">
+    <p><%=order.offer.product.bar_code %></p>
+  </div>
+</div>
+</div>
+</div>
+<% end %>
+</div>
+
+
+
+
+
+<script>
+function myFunction() {
+    var input, filter, divs, divs, a, i, barcode, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    divs = document.getElementById("myDivs");
+    div = [].slice.call(myDivs.children);
+    var results = 0
+    for (i = 0; i < div.length; i++) {
+        a = div[i].getElementsByTagName("h4")[0].innerHTML;
+        txtValue = (a + " " +  div[i].getElementsByClassName("bar-code")[0].innerText);
+        console.log(a)
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+            results += 1;
+        } else {
+            div[i].style.display = "none";
+        }
+        document.getElementById("result-number").innerText = results +" Results"
+    }
+}
+</script>
+
+
+
+<% else %>
+
+  <div class="top-items transactions-padding">
+    <div class="search-bar">
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search your order" title="Type in a name">
+      <%=  button_tag(class: "search-button") do %>
+        <i class="fas fa-search"></i>
+      <% end %>
+    </div>
+
+    <div class="top-title">
+      <p id="result-number"><%= @orders.size %> Results</p>
+      <i class="category-dropdown" data-toggle="dropdown">Date <i class="fas fa-angle-down"></i></i>
+    </div>
+  </div>
+
+<div  id="myDivs">
+<% @orders.each do |order| %>
+<div id="myDiv" class="transaction-card">
+ <div class="card-header">
+   <p>Bought from <%= order.offer.shop.commercial_name  %></p>
+   <p class="transaction-date"><%= order.created_at.strftime("%e %B %Y")%></p>
+ </div>
+ <div  class="card bar-code-card">
+  <div class="transaction-quantity">
+    <p class="bought-quantity"><strong><%=order.units%></strong> &#215;</p>
+  </div>
+  <div class="transaction-product-image">
+    <%= cl_image_tag(order.offer.product.photo,  class: "transaction-image") %>
+  </div>
+  <div class="product-description purchases">
+   <h4><%= order.offer.product.product_type %> <%= order.offer.product.brand %> <%= order.offer.product.model %></h4>
+   <h5>by <%= order.offer.product.brand %> </h5>
+   <div class="rating-index">
+    <% if order.offer.product.average_rating.nil?  %>
+    <p>Not rated yet</p>
+    <% else  %>
+    <div class="stars-transactions">
+      <p>Rate</p>
+      <%= render "transactions/star_rating", order: order%>
+    </div>
+    <% end  %>
+  </div>
+</div>
+<div class="transactions-details">
+  <div class="stock">
+  </div>
+  <div class="price">
+    <p><%= number_to_currency(order.price_snapshot / 100.00,unit: "€",precision: 2, format: "%n %u", delimiter: ".")  %></p>
+  </div>
+  <div class="bar-code">
+    <p><%=order.offer.product.bar_code %></p>
+  </div>
+</div>
+</div>
+</div>
+<% end %>
+</div>
+
+
+
+
+<script>
+function myFunction() {
+    var input, filter, divs, divs, a, i, barcode, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    divs = document.getElementById("myDivs");
+    div = [].slice.call(myDivs.children);
+    var results = 0
+    for (i = 0; i < div.length; i++) {
+        a = div[i].getElementsByTagName("h4")[0].innerHTML;
+        txtValue = (a + " " +  div[i].getElementsByClassName("bar-code")[0].innerText);
+        console.log(a)
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+            results += 1;
+        } else {
+            div[i].style.display = "none";
+        }
+        document.getElementById("result-number").innerText = results +" Results"
+    }
+}
+</script>
+
+
+
+
+
+<% end %>

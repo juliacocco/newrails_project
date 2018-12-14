@@ -1,0 +1,39 @@
+<div class="container">
+  <h2>Payment</h2>
+  <div class="card card--borderbm">
+    <div class="product-image">
+      <%= cl_image_tag @product.photo, class: "image" %>
+    </div>
+    <div class="product-title">
+       <h4><%= @product.brand + " " + @product.model + " " + @product.product_type %></h4>
+       <h5>by <%=@product.brand%></h5>
+    </div>
+  </div>
+  <!-- button to update the units/amount of items in this order lets use JS -->
+
+  <!-- We need a method in the Order model will update the price_snapshot when the amount is changed. -->
+
+
+
+  <div class="items items--quantity">
+    <%= link_to "-", units_decrease_offer_order_path(@offer, @order), class:"dot", id: "minus_button", remote: true,method: :patch %>
+    <h3 id="unit-count"><%= @order.units %></h3>
+    <%= link_to "+", units_increase_offer_order_path(@offer, @order), class:"dot", id: "plus_button", remote: true, method: :patch %>
+
+    <!-- <button class="dot" id="minus_button" type="button">-</button> -->
+    <!-- <button class="dot" id="plus_button" type="button">+</button> -->
+  </div>
+  <%= render "orders/errors", order: @order %>
+  <div class="product-stock">
+    <p><%= @offer.stock %> in stock</p>
+  </div>
+  <div class="error-message"><p></p>
+  </div>
+
+
+    <div class="order-price">
+      <h3 id="total-price"> Price: <strong data-price="<%= @order.price_snapshot %>"><%= number_to_currency(@order.price_snapshot / 100, unit: "€",precision: 2, format: "%n %u", delimiter: ".") %></strong></h3>
+    </div>
+  <%= render 'payments/stripe_form', order: @order, user: current_user %>
+</div>
+

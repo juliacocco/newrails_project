@@ -1,0 +1,195 @@
+.card {
+  display: flex;
+  align-items: stretch;
+  max-width: 100%;
+  padding: 1rem;
+  border-top: 1px solid lightgrey;
+}
+
+.card:last-child {
+  border-bottom: 1px solid lightgrey;
+}
+
+.product-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  img {
+    height: 100px;
+}
+
+}
+.product-description {
+  flex: 1 0 50%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+  h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    font-size: 12px;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+  h5 {
+    color: grey;
+    font-size: 12px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+  }
+  p {
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    margin-left: 0;
+    line-height: 16px;
+  }
+}
+
+.purchases h4 {
+  margin-top: 15px;
+}
+.rating-index {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 3px;
+  position: absolute;
+  bottom: 0px;
+}
+
+ .stars {
+  display: flex;
+  align-items: baseline;
+  p {
+    color: $blue;
+    font-size: 12px;
+    padding-left: 3px;
+  }
+}
+.product-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  padding-right: 0.5rem;
+}
+.stock {
+  p {
+  color: grey;
+  font-size: 12px;
+  }
+}
+.price {
+  p {
+  color: $blue;
+  font-weight: bold;
+  font-size: 14px;
+  }
+}
+.distance {
+  p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+
+
+@media(max-width: 720px) {
+  .desktop-description {
+    display: none;
+  }
+}
+
+@media(min-width: 720px) {
+  .mobile-description {
+    display: none;
+  }
+}
+
+
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #F2F2F2;
+  color: black;
+  p {
+    font-size: 12px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+.transaction-card {
+ border-top: 1px solid lightgrey;
+ margin: 5px 0px 10px 0px;
+}
+
+.transactions-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  padding-right: 0.5rem;
+  align-items: flex-end;
+}
+
+ .stars-transactions {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  p {
+    color: $blue;
+    font-size: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+.transaction-product-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 60px;
+}
+}
+
+.transaction-quantity {
+flex-shrink: 0;
+align-items: center;
+display: flex;
+  p {
+  font-size:14px;
+  }
+}
+
+.transactions-padding {
+  padding: 0px 15px 0px 15px;
+}
+
+
+.bar-code {
+ p {
+ font-size: 12px;
+ }
+}
+
+.bar-code-card {
+  min-height: 102px;
+}
+
+.edit-link {
+  margin-left: 15px;
+}

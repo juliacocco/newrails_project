@@ -1,0 +1,46 @@
+<div class="navbar-wagon">
+  <!-- Logo -->
+
+  <!-- Dropdown list appearing on mobile only -->
+   <div class="navbar-wagon-item">
+      <div class="dropdown">
+        <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown">
+        </i>
+
+          <ul class="dropdown-menu dropdown-menu-left navbar-wagon-dropdown-menu">
+          <% if current_user.nil? %>
+          <li><%= link_to "Home", root_path, class: 'home' %> </li>
+
+          <li><%= link_to "Sign up as a Customer", new_user_registration_path, class: "singup" %></li>
+
+          <li><%= link_to "Sign up as a Shop", new_user_registration_path(hidden_tag: "Shop"),class: "register" %></li>
+
+          <li> <%= link_to "Login", new_user_session_path, class: "login" %>  </li>
+
+         <% elsif current_user.seller == true %>
+            <li> <%= link_to "Your Shop", profiles_path  %>  </li>
+            <li> <%= link_to "Your transactions", transactions_path  %>  </li>
+            <li> <%= link_to "Log out", destroy_user_session_path, :method => :delete  %>  </li>
+
+          <% else  %>
+            <li> <%= link_to "Your purchases", transactions_path  %>  </li>
+            <li> <%= link_to "Log out", destroy_user_session_path, :method => :delete  %>  </li>
+
+        <% end  %>
+        </ul>
+      </div>
+       <%= link_to "NearBuy", root_path, class: 'logo' %>
+   </div>
+
+  <!-- Right Navigation -->
+
+  <div class="navbar-wagon-right">
+
+      <% if current_user.nil? %>
+      <%= link_to "Login", new_user_session_path, class: "navbar-wagon-item navbar-wagon-link" %>
+      <% else  %>
+      <%= link_to "Log out", destroy_user_session_path, :method => :delete, class: "navbar-wagon-item navbar-wagon-link" %>
+      <% end  %>
+  </div>
+</div>
+

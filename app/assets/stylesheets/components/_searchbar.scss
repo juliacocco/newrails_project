@@ -1,0 +1,27 @@
+.search-content {
+  height: 130px;
+  position: relative;
+  padding: 0px;
+  margin-top: 70px;
+  display: flex;
+}
+
+.searchform {
+  width: 100%;
+  display: flex;
+  .search-button {
+  margin-left: 0px;
+  height: 39px;
+  border: 1px solid #2D72ED;
+  background-color: #2D72ED;
+  width: 46px;
+  &:focus {
+  outline: none;
+  }
+  .fa-search {
+    content: "\f002";
+    background-color: #2D72ED;
+    color: white;
+    }
+  }
+}

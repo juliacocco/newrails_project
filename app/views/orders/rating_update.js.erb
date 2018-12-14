@@ -1,0 +1,10 @@
+// We need to find the element that holds the rating stars
+// Then we need to update the element with the new orders rating
+// here we have access to the order and thus also its ID
+// lets target the rating box that has the orders idç
+function updateStars() {
+  const starBox = document.querySelector("[data-order-id='<%= @order.id %>']")
+  starBox.innerHTML = '<%= j render "transactions/star_rating", order: @order%>'
+}
+
+updateStars();

@@ -1,0 +1,46 @@
+<div class="container title-weight">
+  <div class="icon">
+    <% if params[:hidden_tag][1]=="barcode" %>
+      <%= link_to new_product_path(hidden_tag: "barcode") do %>
+        <i class="fas fa-chevron-circle-left"></i>
+      <% end %>
+    <% else %>
+      <%= link_to new_product_path do %>
+        <i class="fas fa-chevron-circle-left"></i>
+      <% end %>
+    <% end  %>
+  </div>
+  <h3>Product details</h3>
+  <div class="new-form center-block">
+    <p class="title-item">Bar code:</p>
+    <p class="result-item"><%= @product.bar_code %></p>
+    <p class="title-item">Category:</p>
+    <p class="result-item"><%= @product.category %></p>
+    <p class="title-item">Product:</p>
+    <p class="result-item"><%= @product.product_type %></p>
+    <p class="title-item">Brand:</p>
+    <p class="result-item"><%= @product.brand %></p>
+    <p class="title-item">Model:</p>
+    <p class="result-item"><%= @product.model %></p>
+    <img id="new-form-picture" src="<%= cl_image_path(@product.photo) %>" alt="Product's picture">
+    <div class="grey">
+      <p class="title-item">Tech specs:</p>
+      <ul>
+        <% @product.specs.split(".").each do |spec| %>
+          <li><%= spec %></li>
+        <% end  %>
+      </ul>
+    </div>
+  </div>
+    <h3>Offer details</h3>
+    <%= simple_form_for [@offer] do |f| %>
+    <%= f.input :price, as: :integer %>
+    <%= f.input :description %>
+    <%= f.input :stock, as: :integer %>
+    <%= f.input :product_id, as: :hidden, :input_html => { :value => params[:hidden_tag][0].to_i } %>
+    <%= f.submit "Save", class: "btn btn-primary bigger" %>
+  <% end %>
+<%= link_to "Back to the home page", root_path, class:"link-back" %>
+  <br>
+</div>
+

@@ -1,0 +1,179 @@
+<% if @offers.size == 0 %>
+  <div id="card-order" class="container">
+    <div class="med card-section center-block">
+      <h4 aria-level="2" role="heading" style="padding-top:.33em"> Your search - <em><%= params[:query] %></em> - did not match any products.  </h4>
+      <h5 style="margin-top:1em">Suggestions:</h5>
+      <ul style="margin-left:1.3em;margin-bottom:2em">
+        <li>Make sure that the word is spelled correctly.</li>
+        <li>Try different keywords.</li>
+        <li>Try fewer keywords.</li>
+      </ul>
+      <%= link_to "Back to the search", root_path, class:"btn btn-primary center-block" %>
+    </div>
+  </div>
+
+<% else %>
+
+<div id="card-order" class="container">
+  <div class="top-title">
+    <p><%= @offers.size %> Results</p>
+    <div class="dropdown">
+      <button onclick="activateChange()" class="dropdown-button" type="button" id="dropdownMenu2" aria-haspopup="true" aria-expanded="false">Sort by distance</button>
+      <ul id = "dropdown-list" class="dropdown-menu dropdown-menu-left">
+        <li id= "listener" value="1"><%=  "Price" %></li>
+        <li id= "listener" value="-1"><%=  "Distance" %></li>
+      </ul>
+    </div>
+  </div>
+  <% @offers.each do |offer| %>
+  <div  class="card">
+    <div class="product-image">
+      <%= link_to cl_image_tag(Product.find(offer.product_id).photo), offer_path(offer), class: "image" %>
+    </div>
+   <div class="product-description">
+     <h4><%= link_to Product.find(offer.product_id).brand + " " + Product.find(offer.product_id).model + " " + Product.find(offer.product_id).product_type, offer_path(offer)%></h4>
+     <h5>by <%= Product.find(offer.product_id).brand %></h5>
+     <p class="mobile-description"><%= truncate(offer.description, length: 60) %></p>
+     <p class="desktop-description"><%= offer.description %></p>
+     <br>
+     <div class="rating-index">
+      <% if Product.find(offer.product_id).average_rating.nil?  %>
+        <p>Not rated yet</p>
+      <% else  %>
+        <div class="stars">
+          <% for i in 1..5 %>
+            <% if Product.find(offer.product_id).average_rating + 0.5 >= i  %>
+              <i class="fas fa-star"></i>
+            <% else %>
+              <i class="fas fa-star empty"></i>
+            <% end %>
+          <% end  %>
+          <p><%= offer.product.numbervote %></p>
+        </div>
+      <% end  %>
+    </div>
+  </div>
+  <div class="product-details">
+   <div class="stock"><p><%= offer.stock %> in stock</p></div>
+   <div class="price"><p><%= offer.price %> €</p></div>
+   <div class="distance"><p> <%= [Shop.where(id: offer.shop_id).last.latitude,Shop.where(id: offer.shop_id).last.longitude]%> </p></div>
+
+
+
+  </div>
+
+
+
+
+
+</div>
+<% end %>
+</div>
+
+
+
+
+
+<script>
+
+ var activateChange = function() {
+
+
+if (document.querySelectorAll("li#listener")[0].value == "1") {
+
+ var myDiv = document.getElementById("card-order")
+      var elements = [].slice.call(myDiv.children);
+  elements.shift();
+  var sorted = elements.sort(function(a, b) {
+    return parseFloat(a.querySelector(".distance").innerText) - parseFloat(b. querySelector(".distance").innerText);
+
+  })
+  sorted.forEach(el=>myDiv.appendChild(el));
+
+  document.getElementById("dropdownMenu2").innerText = "Sort by price"
+
+
+} else {
+ var myDiv = document.getElementById("card-order")
+      var elements = [].slice.call(myDiv.children);
+  elements.shift();
+  var sorted = elements.sort(function(a, b) {
+    return parseFloat(a.querySelector(".price").innerText) - parseFloat(b. querySelector(".price").innerText);
+
+  })
+  sorted.forEach(el=>myDiv.appendChild(el));
+  document.getElementById("dropdownMenu2").innerText = "Sort by distance"
+
+
+}
+
+  document.querySelectorAll("li#listener")[1].value = parseFloat(document.querySelectorAll("li#listener")[1].value)* -1
+  document.querySelectorAll("li#listener")[0].value = parseFloat(document.querySelectorAll("li#listener")[0].value)* -1
+
+        };
+
+
+
+  document.getElementById('listener').addEventListener('change', activateChange);
+
+</script>
+
+
+
+
+<script>
+  var rad = function(deg) {
+    return deg / 180 * Math.PI;
+  }
+
+  var getDistance = function(p1, p2) {
+    var R = 6378137; // Earth’s mean radius in meter
+    var dLat = rad(p2.lat - p1.lat);
+    var dLong = rad(p2.lng - p1.lng);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+      Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d; // returns the distance in meter
+  };
+
+
+  var computeAllDistances = function(userPosition) {
+
+    var length_sel = document.querySelectorAll(".distance > p").length ;
+    var i;
+    for (i = 0; i < length_sel; i++) {
+      console.log(i)
+      var element = document.querySelectorAll(".distance > p")[i]
+
+      var lat_shop = parseFloat(element.innerText.split("[")[1].split("]")[0].split(",")[0])
+
+      //console.log(document.querySelector(".distance > p").innerText)
+
+      var lng_shop = parseFloat(element.innerText.split("[")[1].split("]")[0].split(",")[1])
+
+      var shop_location = {lng: lng_shop,lat: lat_shop}
+      element.innerText = (Math.round(getDistance(userPosition, shop_location) / 10) / 100 ).toString() + "km"
+    }
+  }
+
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+    var user_location = {lng: position.coords.longitude,lat: position.coords.latitude};
+    computeAllDistances(user_location)
+
+    //console.log(getDistance(user_location, shop_location))
+
+
+    //console.log(element)
+
+
+    });
+
+
+  </script>
+
+
+
+<% end %>

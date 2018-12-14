@@ -1,0 +1,26 @@
+function updateDOM() {
+  const count = document.getElementById("unit-count");
+  count.innerText = "<%= @order.units %>";
+
+  const price = document.querySelector(".order-price strong");
+  price.innerText = "<%= number_to_currency(@order.price_snapshot / 100,unit: "€",precision: 2, format: "%n %u", delimiter: ".") %>";
+  price.dataset.price = <%= @order.price_snapshot %>
+
+  // const price_stripe = document.querySelector("[data-amount]");
+  // price_stripe.setAttribute('data-amount', "<%= @order.price_snapshot %>");
+
+  // const pay_form = document.querySelector(".pay-form");
+  // pay_form.innerHTML = '<%= j render "payments/stripe_form", order: @order, user: current_user %>';
+};
+
+function updateErrors() {
+  const errors = document.querySelector(".error-message");
+  errors.innerHTML = '<%= j render "orders/errors", order: @order %>'
+}
+
+<% if @order.valid? %>
+  updateDOM();
+  updateErrors();
+<% else%>
+  updateErrors();
+<% end %>

@@ -1,0 +1,16 @@
+    <div data-order-id="<%= order.id %>" class="stars">
+
+      <% counter = 1 %>
+      <% order.rating.times do  %>
+        <%= link_to order_rating_update_path(order.id, rating: counter),    method: :patch, remote: true do  %>
+          <i id="Star" class="fas fa-star"></i>
+        <% end %>
+        <% counter += 1 %>
+      <% end %>
+      <% (5 - order.rating).times do  %>
+      <%= link_to order_rating_update_path(order.id, rating: counter),    method: :patch, remote: true do  %>
+          <i id="Star" class="fas fa-star empty"></i>
+        <% end %>
+        <% counter += 1 %>
+      <% end %>
+    </div>

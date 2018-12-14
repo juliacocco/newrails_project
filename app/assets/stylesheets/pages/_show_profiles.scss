@@ -1,0 +1,138 @@
+body {
+  width: 100%;
+}
+
+.add-product {
+  border: 1px solid #2D72ED;
+  border-radius: 17px;
+  font-weight: bold;
+  background-color: #2D72ED;
+  margin-top: 5px;
+  font-family: roboto;
+  position: sticky;
+  bottom: 50px;
+  text-align: center;
+  padding: 6px 3px 6px 3px;
+  width: 40%;
+  display: table;
+  a {
+    color: white;
+    font-size: 16px;
+  }
+}
+
+
+.search-button {
+  margin-left: 0px;
+  height: 38px;
+  border: 1px solid #2D72ED;
+  background-color: #2D72ED;
+  color: white;
+  width: 40px;
+}
+
+#myInput {
+  height: 38px;
+  border: 1px solid lightgrey;
+  width: 90%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  input {
+    font-size: 16px;
+    padding-left: 10px;
+    font-weight: lighter;
+    color: grey;
+  }
+}
+
+
+.product-details p {
+  text-align: right;
+}
+
+.less-flex {
+  flex: 1 0 30%;
+}
+
+.margin {
+  margin-top: 0px;
+} h3 {
+  margin-right: 5px;
+} p {
+  margin-bottom: 0px;
+}
+
+.smaller {
+  height: 36px;
+  width: 36px;
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 34px;
+}
+
+.padding {
+  padding-left: 0px;
+}
+
+.space {
+  padding-right: 10px;
+}
+.price-offer p {
+  color: $blue;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.price-offer a {
+  color: #BEBEBE;
+  font-weight: bold;
+  font-size: 12px;
+  position: center;
+}
+
+.edit-offer p {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 13px;
+  text-align: center;
+  bottom: 0px;
+  color: #2D72ED;
+}
+
+.prodcount {
+  color: #646464;
+  font-size: 12px;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  margin-left: 0;
+  line-height: 16px;
+}
+
+.category-dropdown {
+  color: #646464;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.profile-dropdown-menu li {
+  padding: 2px;
+  margin: 0 4px;
+  font-size: 15px;
+  color: #999999;
+}
+
+.top-title {
+  margin-bottom: 10px;
+  padding-left: 5px;
+  align-items: baseline;
+}
+
+.fa-angle-down {
+  font-size: 12px;
+  position: center;
+}
+
+

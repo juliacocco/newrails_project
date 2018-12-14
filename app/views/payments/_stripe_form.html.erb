@@ -1,0 +1,40 @@
+<div class="pay-form center-block">
+  <%= form_tag offer_order_payments_path(order.offer_id, order), id:"stripe-form" do %>
+  <%= hidden_field_tag 'stripeToken', '', id: "stripeToken"  %>
+
+  <%= button_tag "Pay", class: "btn btn-primary center-block call-to-action-btn", id: "submit-payment" %>
+
+  <script src="https://checkout.stripe.com/checkout.js"></script>
+  <script>
+  var handler = StripeCheckout.configure({
+    name: "My Offer ",
+    key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+    email: "<%= current_user.email %>",
+    description: "<%= order %>",
+    currency: "<%= order.offer.price.currency %>",
+    amount: parseInt("<%= order.price_snapshot %>", 10),
+    token: function(token) {
+      const formToken = document.getElementById('stripeToken');
+      console.log(formToken);
+      formToken.value = token.id;
+      document.getElementById("stripe-form").submit();
+      // You can access the token ID with `token.id`.
+      // Get the token ID to your server-side code for use.
+    }
+  });
+  const amount = document.querySelector(".order-price strong");
+  document.getElementById('submit-payment').addEventListener('click', function(e) {
+    // Open Checkout with further options:
+    handler.open({
+      amount: parseInt(amount.dataset.price, 10)
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation:
+  window.addEventListener('popstate', function() {
+    handler.close();
+  });
+  </script>
+  <% end %>
+</div>

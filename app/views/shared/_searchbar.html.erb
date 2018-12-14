@@ -1,0 +1,19 @@
+
+<div class="home-page"></div>
+<div class="homepage-container">
+
+    <div class="search-content col-xs-12">
+      <%= form_tag offers_path, method: :get, class: "searchform" do %>
+        <%= text_field_tag :query,
+        params[:query],
+        class: "form-control",
+            placeholder: "Coffee machine"%>
+
+        <%=  button_tag(class: "search-button") do %>
+        <i class="fas fa-search"></i>
+
+        <% end %>
+        <% end %>
+    </div>
+</div>
+
